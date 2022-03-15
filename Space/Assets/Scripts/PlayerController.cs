@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Invader") || other.gameObject.layer == LayerMask.NameToLayer("Missile"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("Credits");
         }
     }
 }
