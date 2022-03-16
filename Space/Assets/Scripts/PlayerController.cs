@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     public float speed = 5.0f;
     public Projectile lazer;
     private bool lazerActive = false;
+    public Animator animator;
+    
+
+    private bool attack = false;
     void Start()
     {
         
@@ -26,7 +30,8 @@ public class PlayerController : MonoBehaviour
             transform.position += Vector3.right * speed * Time.deltaTime;
         }
         if(Input.GetKeyDown(KeyCode.Space))
-        {
+        {  attack = true;
+            animator.SetBool("isAttack", true);
             shoot(); 
         }
     }
@@ -41,6 +46,8 @@ public class PlayerController : MonoBehaviour
     }
     private void destroyedLazer()
     {
+        attack = false;
+        animator.SetBool("isAttack", false);
         lazerActive = false;
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -48,7 +55,15 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.layer == LayerMask.NameToLayer("Invader") || other.gameObject.layer == LayerMask.NameToLayer("Missile"))
         {
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            SceneManager.LoadScene("Credits");
+            //SceneManager.LoadScene("Credits");
+            getHit();
         }
     }
+
+    public void getHit()
+    {
+        animator.SetTrigger("isDed");
+        
+    }
+
 }
