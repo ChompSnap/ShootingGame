@@ -96,6 +96,7 @@ public class EnemyPlacement : MonoBehaviour
             if (Random.value < (1.0f / (float)amountAlive))
             {
                 Instantiate(missile, enemy.position, Quaternion.identity);
+                enemy.gameObject.GetComponent<Enemy>().invaderAttack();
                 break;
             }
         }

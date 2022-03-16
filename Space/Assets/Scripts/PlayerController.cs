@@ -10,9 +10,11 @@ public class PlayerController : MonoBehaviour
     public Projectile lazer;
     private bool lazerActive = false;
     public Animator animator;
-    
+
+    private float timer = 0.0f;
 
     private bool attack = false;
+    private bool isDead = false;
     void Start()
     {
         
@@ -21,18 +23,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (!isDead)
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.position += Vector3.left * speed * Time.deltaTime;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.position += Vector3.right * speed * Time.deltaTime;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                attack = true;
+                animator.SetBool("isAttack", true);
+                shoot();
+            }
         }
-        else if(Input.GetKey(KeyCode.RightArrow))
+        else
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        if(Input.GetKeyDown(KeyCode.Space))
-        {  attack = true;
-            animator.SetBool("isAttack", true);
-            shoot(); 
+            timer += Time.deltaTime;
+            float seconds = timer % 60;
+            if (seconds > 8)
+            {
+                SceneManager.LoadScene("Credits");
+            }
         }
     }
     private void shoot()
@@ -56,6 +71,7 @@ public class PlayerController : MonoBehaviour
         {
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             //SceneManager.LoadScene("Credits");
+            isDead = true;
             getHit();
         }
     }
